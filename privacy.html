@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>개인정보 처리 안내 | WehagoCollector Customer Agent</title><link rel="stylesheet" href="style.css"></head>
+<body><header class="masthead"><a class="brand" href="index.html">WehagoCollector Customer Agent</a><span>업무자료 수집기</span></header><nav aria-label="안내 문서"><a href="index.html">프로그램 소개</a><a href="privacy.html" aria-current="page">개인정보 처리 안내</a><a href="terms.html">이용 안내</a></nav><main id="content"><h1>개인정보 처리 안내</h1>
+<p><strong>시행일: 2026-10-26</strong></p>
+<p>이 안내는 WehagoCollector Customer Agent(업무자료 수집기)의 Google 시트 연동과 그 결과를 PC에서 사용하는 방식을 설명합니다.</p>
+<p>운영·문의: <strong>고객사 담당 관리자</strong> · <a href="mailto:sm.bot.agent@gmail.com">sm.bot.agent@gmail.com</a></p>
+<h2>1. 접근하는 정보와 목적</h2>
+<table>
+<thead>
+<tr>
+<th>정보</th>
+<th>목적</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Google 계정 식별값과 검증된 이메일</td>
+<td>연결한 공용 Agent 계정 확인, 다른 계정으로 바뀐 경우 진행 차단</td>
+</tr>
+<tr>
+<td>OAuth 클라이언트 정보와 갱신 토큰</td>
+<td>사용자가 승인한 Google 읽기 연결 유지</td>
+</tr>
+<tr>
+<td>설정한 스프레드시트의 ID·제목, 탭 ID·제목·숨김 여부·행열 수</td>
+<td>허용한 문서·담당자 탭 확인과 조회 범위 검사</td>
+</tr>
+<tr>
+<td>담당자 탭의 상호명 열과 AC열 계산값, 실제 행번호</td>
+<td>수집 후보 선별, WEHAGO 회사·방 매칭, 제외 사유와 출처 기록</td>
+</tr>
+<tr>
+<td>사용자가 선택한 담당자·회사·기간·자료와 처리 상태</td>
+<td>다운로드 계획, 중복 작업 합치기, 담당자별 분류, 실패 기록과 이어하기</td>
+</tr>
+</tbody></table>
+<p>Google에서 요청하는 권한은 <code>spreadsheets.readonly</code>, <code>openid</code>, <code>email</code>입니다. Google 비밀번호, 전체 Drive 파일 목록, Google 시트 쓰기·삭제 권한은 요청하지 않습니다. 기본 상호명은 D열, 데이터 시작은 5행이며 설정한 담당자 탭의 상호명 열과 AC열만 값 조회에 사용합니다. Google의 권한 자체는 특정 문서·탭으로 제한되지 않으므로 프로그램이 설정 범위를 별도로 검사합니다.</p>
+<h2>2. 사용하는 방식</h2>
+<p>AC열에 값이 있는 행을 후보로 삼고 상호명을 로컬 회사 목록과 비교합니다. 모호한 방은 사용자 확인을 거치며 선택한 범위로만 수집 계획을 만듭니다. 원본 Google 시트의 셀을 수정하거나 삭제하지 않습니다.</p>
+<p>Google API에서 읽은 정보는 이 기능의 연결 확인·대상 선별·분류·기록·재개에 사용합니다. 현재 프로그램에는 이 정보를 광고, 데이터 판매 또는 일반화된 AI 모델 학습 목적으로 전송하는 기능이 없습니다. Google API에서 받은 정보의 사용·전달에는 <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>의 제한적 사용 요건을 적용합니다.</p>
+<h2>3. 보관 위치와 보존 기간</h2>
+<p>OAuth 클라이언트 정보, 계정 식별값·이메일·갱신 토큰은 Windows Credential Manager 또는 macOS Keychain의 보호 항목에 저장합니다. 사용 중 발급받은 접근 토큰은 Google 요청에 사용합니다.</p>
+<p>문서·담당자·열·시작 행 설정, 상호명·AC값·매칭 상태의 스냅샷, 당시 선택 범위를 고정한 작업 계획, 선별 CSV, 수집 기록 및 다운로드 파일은 PC의 자료 폴더에 저장합니다. Windows 기본 위치는 <code>%LOCALAPPDATA%\WehagoCollector</code>입니다. 자료에는 회사명·담당자명 등 업무 정보가 포함될 수 있습니다.</p>
+<p>업데이트 또는 프로그램 제거가 기존 자료 폴더를 자동으로 지우지 않습니다. 이 시트 출처와 수집 자료에는 정해진 기간이 지나면 자동으로 삭제하는 기능이 없습니다. 고객사 관리자가 보관 필요와 내부 기준을 확인해 삭제 시점을 정합니다. 다른 PC·전달 파일·백업의 사본은 각각 관리해야 합니다.</p>
+<h2>4. 고객사 전용 연결 파일</h2>
+<p><code>.collector-connection</code>은 다른 고객 PC에 같은 연결을 등록하기 위한 <strong>평문 이동용 인증 파일</strong>입니다. OAuth 클라이언트 정보·갱신 토큰·계정 정보와 고객사의 문서·탭 조건을 포함합니다. 파일을 가져와도 원래 전달 파일은 자동으로 삭제되지 않습니다.</p>
+<p>관리자는 허용된 고객사 사용자에게만 비공개로 전달하고, 보관 중인 파일과 사본의 접근을 제한해야 합니다. 공개 소스·설치파일·가이드·오류 첨부에는 넣지 않습니다. PC에 등록한 뒤 보호 저장소를 사용한다는 이유로 전달 파일을 공개해도 되는 것은 아닙니다.</p>
+<h2>5. 전송과 선택적 외부 연결</h2>
+<p>Google 인증·토큰 갱신과 Sheets 조회에는 Google의 HTTPS 서버를 사용합니다. WEHAGO 자료 수집은 해당 서비스와 통신하며, 그 인증과 자료 접근은 Google 연결과 별도입니다. 프로그램 업데이트 조회·설치파일 수신은 GitHub Releases를 사용합니다. Google 시트 내용이나 연결 파일을 업데이트 서버에 업로드하는 흐름은 없습니다.</p>
+<p>사용자가 읽기 전용 MCP를 연결하면 연결 상태, 담당자 탭, 대상 미리보기 결과를 <strong>호출한 MCP 클라이언트에 제공합니다.</strong> 미리보기에는 상호명·담당자·행번호·AC값·매칭 정보가 포함될 수 있습니다. 인증정보·금액·WEHAGO 진입 URL은 반환하지 않습니다. MCP 클라이언트가 정보를 처리하는 방식은 해당 도구의 설정과 정책을 확인한 뒤 사용해야 합니다.</p>
+<p>수집 기록 CSV에는 회사·방·담당자와 출처 행이 들어갑니다. 지원 JSON은 허용된 상태·건수·작업 ID·오류 코드 중심으로 만들며 인증정보·회사명·원시 시트값을 제외합니다. 지원 파일 생성은 로컬 작업이며 자동 외부 전송 기능이 아닙니다. 사용자가 별도로 자료를 전달하는 경우 전달 범위는 고객사 관리자가 확인합니다.</p>
+<h2>6. 연결 해제, 권한 철회, 삭제</h2>
+<ol>
+<li><strong>이 PC의 연결만 중단:</strong> 고객사 관리자에게 요청합니다. 관리자 메뉴 <code>sheets-admin → 1 Google OAuth → 3 이 PC의 Google 연결 해제</code>에서 확인하면 해당 PC·자료 경로의 연결 토큰을 제거합니다. OAuth 클라이언트 설정은 남습니다.</li>
+<li><strong>Google에 부여한 앱 접근 권한 철회:</strong> 공용 Agent 관리자가 <a href="https://myaccount.google.com/connections">Google 계정의 연결된 앱</a>에서 해당 앱의 Google 계정 접근 권한을 확인하고 삭제합니다. 같은 승인을 쓰는 다른 PC에도 영향을 줄 수 있으므로 관리자가 범위를 확인합니다. <a href="https://support.google.com/accounts/answer/13533235?hl=en">Google 공식 안내</a></li>
+<li><strong>보관 자료 삭제:</strong> 프로그램과 MCP를 종료한 뒤 고객사 관리자에게 삭제 범위를 요청합니다. 자료 폴더의 설정·스냅샷·계획·기록·엑셀, 전달받은 연결 파일, 다른 PC와 백업의 사본을 구분해 처리합니다. 현재 프로그램에는 이 모든 자료를 일괄 삭제하거나 원격으로 삭제 요청을 접수하는 메뉴가 없습니다.</li>
+</ol>
+<p>로컬 연결 해제만으로 Google 서버 권한, 다른 PC의 연결, 이미 전달된 연결 파일, 원본 시트, WEHAGO 인증, 기존 로컬 업무 자료가 삭제되지는 않습니다. Google 권한을 철회해도 이미 PC에 저장한 자료가 자동 삭제되지는 않습니다. OAuth 클라이언트 설정까지 제거하려면 관리자가 해당 PC·자료 경로의 보호 저장 항목도 확인해야 합니다.</p>
+<h2>7. 이 안내 페이지</h2>
+<p>페이지 자체에는 로그인·입력 폼·분석 스크립트·외부 폰트가 없습니다. 이 안내 페이지의 호스팅 서비스인 GitHub Pages는 보안 목적으로 방문자의 IP 주소를 기록합니다. 이는 제품의 시트 자료나 연결 파일 업로드와 별개입니다. <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection">GitHub Pages 데이터 수집 안내</a></p>
+<h2>8. 문의와 변경</h2>
+<p>운영·문의: <strong>고객사 담당 관리자</strong> · <a href="mailto:sm.bot.agent@gmail.com">sm.bot.agent@gmail.com</a></p>
+<p>연결·조회·보관·삭제 관련 문의는 담당 관리자에게 요청하세요. 계정 비밀번호나 연결 파일을 문의에 첨부하지 마세요. 데이터 처리 방식이 바뀌면 시행일을 표시하고 이 안내와 프로그램 내 안내를 함께 갱신합니다.</p>
+</main><footer>시행일 2026-10-26 · 운영·문의: 고객사 담당 관리자 · <a href="mailto:sm.bot.agent@gmail.com">sm.bot.agent@gmail.com</a></footer></body></html>
